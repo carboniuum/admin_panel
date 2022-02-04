@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
+    /**
+     * @OA\Get(path="/api/products",
+     *     @OA\Response(response="200",
+     *      description="Product Collection"
+     *     )
+     * )
+     */
     public function index()
     {
         Gate::authorize('view', 'products');

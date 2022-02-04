@@ -1,0 +1,23 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Admin Panel Documentation",
+        "description": "Admin Panel OpenApi description",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/products": {
+            "get": {
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "responses": {
+                    "200": {
+                        "description": "Product Collection"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
