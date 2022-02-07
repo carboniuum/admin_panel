@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+    nginx:
+        build:
+            context: .
+            dockerfile: docker/Nginx.Dockerfile
+        ports:
+            - 8098:80
+        links:
+            - fpm
+        volumes:
+            - ./:/var/www/laravel-docker
+    fpm:
+        build:
+            context: .
+            dockerfile: docker/Fpm.Dockerfile
+        volumes:
+            - ./:/var/www/laravel-docker
+        links:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "4306:3306"
+        volumes:
+            - ./mysql:/var/lib/mysql
+        environment:
+            - MYSQL_HOST=mysql
+            - MYSQL_DATABASE=laravel
+            - MYSQL_USER=umarbek
+            - MYSQL_PASSWORD=root
+            - MYSQL_ROOT_PASSWORD=root
+            - SERVICE_TAGS=dev
+            - SERVICE_NAME=mysql
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:mysql
+        ports:
+            - "8082:80"
+        environment:
+            - MYSQL_USERNAME=root
+            - MYSQL_ROOT_PASSWORD=root
+            - PMA_HOST=mysql
+        depends_on:
+            - mysql
