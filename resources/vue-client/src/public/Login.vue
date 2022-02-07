@@ -36,6 +36,7 @@ export default {
             })
 
             localStorage.setItem('token', response.data.token)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
             await router.push('/')
         }

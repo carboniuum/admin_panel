@@ -1,5 +1,7 @@
 <template>
-    <Nav />
+    <Nav
+        :user="user"
+    />
 
     <div class="container-fluid">
         <div class="row">
@@ -13,10 +15,11 @@
 </template>
 
 <script>
-import {onMounted} from 'vue'
-import Navbar from '@/components/Navbar'
-import Nav from '@/components/Nav'
+import {onMounted, ref} from 'vue'
+import Navbar from '@/secure/components/Navbar'
+import Nav from '@/secure/components/Nav'
 import axios from 'axios'
+import {useRouter} from 'vue-router'
 
 export default {
     name: "Secure",
@@ -24,11 +27,20 @@ export default {
     components: {Navbar, Nav},
 
     setup() {
-        onMounted(async () => {
-            const response = await axios.get('/user')
+        const router = useRouter()
+        const user = ref(null)
 
-            console.log(response)
+        onMounted(async () => {
+            try {
+                const response = await axios.get('/user')
+
+                user.value = response.data.data
+            } catch (e) {
+                await router.push({name: 'Login'})
+            }
         })
+
+        return {user}
     }
 }
 </script>
