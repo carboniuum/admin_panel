@@ -10,13 +10,13 @@ services:
         links:
             - fpm
         volumes:
-            - ./:/var/www/laravel-docker
+            - ./:/var/www/admin_panel
     fpm:
         build:
             context: .
             dockerfile: docker/Fpm.Dockerfile
         volumes:
-            - ./:/var/www/laravel-docker
+            - ./:/var/www/admin_panel
         links:
             - mysql
     mysql:
@@ -30,7 +30,7 @@ services:
             - ./mysql:/var/lib/mysql
         environment:
             - MYSQL_HOST=mysql
-            - MYSQL_DATABASE=laravel
+            - MYSQL_DATABASE=admin_panel
             - MYSQL_USER=umarbek
             - MYSQL_PASSWORD=root
             - MYSQL_ROOT_PASSWORD=root
