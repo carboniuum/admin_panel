@@ -64,11 +64,9 @@ export default {
 
         onMounted(async () => {
             const response = await axios.get('roles')
-
             roles.value = response.data.data
 
             const getUser = await axios.get(`users/${params.id}`)
-
             const user: User = getUser.data.data
 
             firstName.value = user.first_name

@@ -33,7 +33,8 @@
                                 :to="{name: 'Users.Edit', params: {id: user.id}}"
                                 class="btn btn-sm btn-outline-secondary"
                             >
-                                Edit</router-link>
+                                Edit
+                            </router-link>
                             <a
                                 href="javascript:void(0)"
                                 class="btn btn-sm btn-outline-secondary"
