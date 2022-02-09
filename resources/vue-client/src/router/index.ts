@@ -5,6 +5,7 @@ import Secure from '@/secure/Secure.vue'
 import Dashboard from '@/secure/dashboard/Dashboard.vue'
 import Users from '@/secure/users/Users.vue'
 import UsersCreate from '@/secure/users/Create.vue'
+import UsersEdit from '@/secure/users/Edit.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -25,7 +26,8 @@ const routes: Array<RouteRecordRaw> = [
             {path: '', redirect: '/dashboard'},
             {path: '/dashboard', name: 'Dashboard', component: Dashboard},
             {path: '/users', name: 'Users', component: Users},
-            {path: '/users/create', name: 'Users.Create', component: UsersCreate}
+            {path: '/users/create', name: 'Users.Create', component: UsersCreate},
+            {path: '/users/:id/edit', name: 'Users.Edit', component: UsersEdit}
         ]
     },
     {

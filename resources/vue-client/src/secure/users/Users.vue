@@ -29,12 +29,11 @@
                     <td>{{user.role.name}}</td>
                     <td>
                         <div class="btn-group mr-2">
-                            <a
-                                href="javascript:void(0)"
+                            <router-link
+                                :to="{name: 'Users.Edit', params: {id: user.id}}"
                                 class="btn btn-sm btn-outline-secondary"
-                                @click=""
                             >
-                                Edit</a>
+                                Edit</router-link>
                             <a
                                 href="javascript:void(0)"
                                 class="btn btn-sm btn-outline-secondary"
