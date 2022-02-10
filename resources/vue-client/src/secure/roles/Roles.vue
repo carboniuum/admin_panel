@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <div class="btn-toolbar mb-2 mb-md-0">
             <router-link
-                :to="{name: 'Users.Create'}"
+                :to="{name: 'Roles.Create'}"
                 class="btn btn-sm btn-outline-secondary"
             >
                 Create
@@ -16,21 +16,17 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.id">
-                    <td>{{user.id}}</td>
-                    <td>{{user.first_name}} {{user.last_name}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.role.name}}</td>
+                <tr v-for="role in roles" :key="role.id">
+                    <td>{{role.id}}</td>
+                    <td>{{role.name}}</td>
                     <td>
                         <div class="btn-group mr-2">
                             <router-link
-                                :to="{name: 'Users.Edit', params: {id: user.id}}"
+                                :to="{name: 'Roles.Edit', params: {id: role.id}}"
                                 class="btn btn-sm btn-outline-secondary"
                             >
                                 Edit
@@ -38,7 +34,7 @@
                             <a
                                 href="javascript:void(0)"
                                 class="btn btn-sm btn-outline-secondary"
-                                @click="remove(user.id)"
+                                @click="remove(role.id)"
                             >
                                 Delete
                             </a>
@@ -48,48 +44,37 @@
             </tbody>
         </table>
     </div>
-
-    <Paginator :lastPage="lastPage" @pageChanged="load($event)" />
 </template>
 
 <script lang="ts">
 import {ref, onMounted} from 'vue'
 import axios from 'axios'
-import {Entity} from '@/interfaces/entity'
-import Paginator from '@/secure/components/Paginator.vue'
+import {Entity} from "@/interfaces/entity";
 
 export default {
-    name: "Users",
-    components: {Paginator},
+    name: "Roles",
 
     setup() {
-        const users = ref([])
-        const lastPage = ref(0)
-
-        const load = async (page = 1) => {
-            const response = await axios.get('users', {params: {page: page}})
-
-            users.value = response.data.data
-            lastPage.value = response.data.meta.last_page
-        }
+        const roles = ref([])
 
         const remove = async (id: number) => {
-            if (confirm('Are you sure you want to delete this user?')) {
-                await axios.delete(`/users/${id}`)
+            if (confirm('Are you sure you want to delete this role?')) {
+                await axios.delete(`/roles/${id}`)
 
-                users.value = users.value.filter((e: Entity) => e.id !== id)
+                roles.value = roles.value.filter((e: Entity) => e.id !== id)
             }
         }
 
-        onMounted(load)
+        onMounted(async () => {
+            const response = await axios.get('roles')
+
+            roles.value = response.data.data
+        })
 
         return {
-            users,
-            remove,
-            lastPage,
-            load
+            roles,
+            remove
         }
     }
 }
 </script>
-
