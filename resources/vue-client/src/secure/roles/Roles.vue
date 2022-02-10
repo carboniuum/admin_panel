@@ -24,7 +24,10 @@
                     <td>{{role.id}}</td>
                     <td>{{role.name}}</td>
                     <td>
-                        <div class="btn-group mr-2">
+                        <div
+                            v-if="user.canEdit('roles')"
+                            class="btn-group mr-2"
+                        >
                             <router-link
                                 :to="{name: 'Roles.Edit', params: {id: role.id}}"
                                 class="btn btn-sm btn-outline-secondary"
@@ -47,15 +50,18 @@
 </template>
 
 <script lang="ts">
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axios from 'axios'
-import {Entity} from "@/interfaces/entity";
+import {Entity} from '@/interfaces/entity'
+import {useStore} from 'vuex'
 
 export default {
     name: "Roles",
 
     setup() {
         const roles = ref([])
+        const store = useStore()
+        const user = computed(() => store.state.user.user)
 
         const remove = async (id: number) => {
             if (confirm('Are you sure you want to delete this role?')) {
@@ -73,7 +79,8 @@ export default {
 
         return {
             roles,
-            remove
+            remove,
+            user
         }
     }
 }

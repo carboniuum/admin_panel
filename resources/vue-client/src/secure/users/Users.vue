@@ -2,6 +2,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <div class="btn-toolbar mb-2 mb-md-0">
             <router-link
+                v-if="userAuthenticated.canEdit('users')"
                 :to="{name: 'Users.Create'}"
                 class="btn btn-sm btn-outline-secondary"
             >
@@ -28,7 +29,10 @@
                     <td>{{user.email}}</td>
                     <td>{{user.role.name}}</td>
                     <td>
-                        <div class="btn-group mr-2">
+                        <div
+                            v-if="userAuthenticated.canEdit('users')"
+                            class="btn-group mr-2"
+                        >
                             <router-link
                                 :to="{name: 'Users.Edit', params: {id: user.id}}"
                                 class="btn btn-sm btn-outline-secondary"
@@ -53,10 +57,11 @@
 </template>
 
 <script lang="ts">
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axios from 'axios'
 import {Entity} from '@/interfaces/entity'
 import Paginator from '@/secure/components/Paginator.vue'
+import {useStore} from 'vuex'
 
 export default {
     name: "Users",
@@ -65,6 +70,8 @@ export default {
     setup() {
         const users = ref([])
         const lastPage = ref(0)
+        const store = useStore()
+        const userAuthenticated = computed(() => store.state.user.user)
 
         const load = async (page = 1) => {
             const response = await axios.get('users', {params: {page: page}})
@@ -85,6 +92,7 @@ export default {
 
         return {
             users,
+            userAuthenticated,
             remove,
             lastPage,
             load

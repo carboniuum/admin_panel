@@ -12,6 +12,9 @@ import RolesEdit from '@/secure/roles/Edit.vue'
 import Products from '@/secure/products/Products.vue'
 import ProductsCreate from '@/secure/products/Create.vue'
 import ProductsEdit from '@/secure/products/Edit.vue'
+import Orders from '@/secure/orders/Orders.vue'
+import OrderItems from '@/secure/orders/OrderItems.vue'
+import Profile from '@/secure/profile/Profile.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -31,6 +34,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             {path: '', redirect: '/dashboard'},
             {path: '/dashboard', name: 'Dashboard', component: Dashboard},
+            {path: '/profile', name: 'Profile', component: Profile},
             {path: '/users', name: 'Users', component: Users},
             {path: '/users/create', name: 'Users.Create', component: UsersCreate},
             {path: '/users/:id/edit', name: 'Users.Edit', component: UsersEdit},
@@ -40,6 +44,8 @@ const routes: Array<RouteRecordRaw> = [
             {path: '/products', name: 'Products', component: Products},
             {path: '/products/create', name: 'Products.Create', component: ProductsCreate},
             {path: '/products/:id/edit', name: 'Products.Edit', component: ProductsEdit},
+            {path: '/orders', name: 'Orders', component: Orders},
+            {path: '/orders/:id', name: 'OrderDetails', component: OrderItems}
         ]
     },
     {

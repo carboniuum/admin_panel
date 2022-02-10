@@ -1,40 +1,50 @@
 <template>
-    <Nav
-        :user="user"
-    />
+    <Nav />
 
     <div class="container-fluid">
         <div class="row">
-            <Navbar />
+            <Sidebar />
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <router-view />
+                <router-view
+                    v-if="user?.id"
+                />
             </main>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import {onMounted, ref} from 'vue'
-import Navbar from '@/secure/components/Navbar'
-import Nav from '@/secure/components/Nav'
+import Sidebar from '@/secure/components/Sidebar.vue'
+import Nav from '@/secure/components/Nav.vue'
 import axios from 'axios'
 import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
+import {User} from '@/classes/user'
 
 export default {
     name: "Secure",
-
-    components: {Navbar, Nav},
+    components: {Sidebar, Nav},
 
     setup() {
         const router = useRouter()
         const user = ref(null)
+        const store = useStore()
 
         onMounted(async () => {
             try {
                 const response = await axios.get('/user')
-
-                user.value = response.data.data
+                const u = response.data.data
+                await store.dispatch('user/setUser', new User(
+                    u.id,
+                    u.first_name,
+                    u.last_name,
+                    u.email,
+                    u.role,
+                    u.permissions
+                ))
+                user.value = u
             } catch (e) {
                 await router.push({name: 'Login'})
             }

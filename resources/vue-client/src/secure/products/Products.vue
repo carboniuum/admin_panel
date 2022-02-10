@@ -32,7 +32,10 @@
                     <td>{{product.description}}</td>
                     <td>${{product.price}}</td>
                     <td>
-                        <div class="btn-group mr-2">
+                        <div
+                            v-if="user.canEdit('products')"
+                            class="btn-group mr-2"
+                        >
                             <router-link
                                 :to="{name: 'Products.Edit', params: {id: product.id}}"
                                 class="btn btn-sm btn-outline-secondary"
@@ -57,10 +60,11 @@
 </template>
 
 <script lang="ts">
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axios from 'axios'
+import {useStore} from 'vuex'
 import {Entity} from '@/interfaces/entity'
-import Paginator from "@/secure/components/Paginator.vue";
+import Paginator from '@/secure/components/Paginator.vue'
 
 export default {
     name: "Products",
@@ -69,6 +73,8 @@ export default {
     setup() {
         const products = ref([])
         const lastPage = ref(0)
+        const store = useStore()
+        const user = computed(() => store.state.user.user)
 
         const load = async (page = 1) => {
             const response = await axios.get('products', { params: {page: page}})
@@ -91,7 +97,8 @@ export default {
             products,
             remove,
             lastPage,
-            load
+            load,
+            user
         }
     }
 }
