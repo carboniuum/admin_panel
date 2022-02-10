@@ -4,7 +4,7 @@
     </label>
 </template>
 
-<script lang="ts">
+<script>
 import axios from 'axios'
 
 export default {
@@ -12,7 +12,7 @@ export default {
     emits: ['fileUploaded'],
 
     setup(_, {emit}) {
-        const upload = async (files: FileList) => {
+        const upload = async (files) => {
             const file = files.item(0)
 
             const data = new FormData

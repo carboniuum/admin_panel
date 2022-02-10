@@ -13,6 +13,7 @@
                 </li>
                 <li class="nav-item">
                     <router-link
+                        v-if="user.canView('users')"
                         :to="{name: 'Users'}"
                         active-class="active"
                         class="nav-link"
@@ -22,6 +23,7 @@
                 </li>
                 <li class="nav-item">
                     <router-link
+                        v-if="user.canView('roles')"
                         :to="{name: 'Roles'}"
                         active-class="active"
                         class="nav-link"
@@ -31,11 +33,22 @@
                 </li>
                 <li class="nav-item">
                     <router-link
+                        v-if="user.canView('products')"
                         :to="{name: 'Products'}"
                         active-class="active"
                         class="nav-link"
                     >
                         Products
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link
+                        v-if="user.canView('orders')"
+                        :to="{name: 'Orders'}"
+                        active-class="active"
+                        class="nav-link"
+                    >
+                        Orders
                     </router-link>
                 </li>
             </ul>
@@ -44,9 +57,21 @@
 </template>
 
 <script>
-    export default {
-        name: "Navbar"
+import {computed} from 'vue'
+import {useStore} from 'vuex'
+
+export default {
+    name: "Sidebar",
+
+    setup() {
+        const store = useStore()
+        const user = computed(() => store.state.user.user)
+
+        return {
+            user
+        }
     }
+}
 </script>
 
 <style scoped>
