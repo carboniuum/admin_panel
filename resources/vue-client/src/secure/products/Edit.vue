@@ -11,10 +11,10 @@
         </div>
 
         <div class="form-group">
-            <label>Image</label>
+            <label>Image {{params.id}}</label>
             <div class="input-group-append">
                 <input type="text" class="form-control" v-model="image">
-                <ImageUpload @fileUploaded="image = $event" />
+                <ImageUpload :id="params.id" @fileUploaded="image = $event" />
             </div>
         </div>
 
@@ -71,6 +71,7 @@ export default {
             description,
             image,
             price,
+            params,
             submit
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,14 @@ class ImageController extends Controller
         $this->validate($request, [
             'image' => 'required|mimes:jpg,jpeg,png',
         ]);
+
+        if ($request->has('id')) {
+            $product = Product::find($request['id']);
+            $arr = explode('/', $product->image);
+            if (Storage::exists('images/' . end($arr))) {
+                Storage::delete('images/' . end($arr));
+            }
+        }
 
         $file = $request->file('image');
         $name = Str::random(10);
