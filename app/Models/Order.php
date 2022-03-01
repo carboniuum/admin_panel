@@ -34,6 +34,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $appends = ['total'];
+
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
