@@ -12,7 +12,7 @@ docker-compose run --rm composer install
 
 ## To run migration inside container
 ```
-docker-compose run --rm artisan migrate
+docker-compose run --rm artisan migrate --seed
 ```
 
 ## To access any container's file system
