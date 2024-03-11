@@ -5,12 +5,22 @@
 docker-compose up -d vue
 ```
 
-## To install laravel inside container
+## Install Laravel inside container
 ```
 docker-compose run --rm composer install
 ```
 
-## To run migration inside container
+## Copy .env.example file to .env
+```
+cp laravel/.env.example laravel/.env
+```
+
+## Generate the app key
+```
+docker-compose run --rm artisan key:generate
+```
+
+## Run migration inside container
 ```
 docker-compose run --rm artisan migrate --seed
 ```
